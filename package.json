@@ -1,0 +1,39 @@
+{
+  "name": "@cisl/cog-loader",
+  "version": "1.0.0-dev.1",
+  "description": "Utility library for loading cog.json files",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint src/**/*.ts test/**/*.ts",
+    "lint:fix": "eslint --fix src/**/*.ts test/**/*.ts",
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "tsc-publish": "tsc-publish",
+    "tsc-publish-dry": "tsc-publish --dry-run",
+    "prepublishOnly": "echo \"Do not run publish directly, run tsc-publish\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cislrpi/cog-loader.git"
+  },
+  "author": "Matthew Peveler <pevelm@rpi.edu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cislrpi/cog-loader/issues"
+  },
+  "homepage": "https://github.com/cislrpi/cog-loader#readme",
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.29.0",
+    "@typescript-eslint/parser": "^2.29.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.4.0",
+    "ts-jest": "^25.4.0",
+    "tsc-publish": "^0.5.2",
+    "typescript": "^3.8.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
