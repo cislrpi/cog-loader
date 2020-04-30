@@ -35,5 +35,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@types/node": "^10.17.21"
   }
 }
