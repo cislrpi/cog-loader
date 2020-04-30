@@ -35,7 +35,7 @@ export function overrideObject(target: Cog, override: {[key: string]: unknown}):
   return newObject;
 }
 
-export default function loadCogFile(options: Options): Cog {
+export default function loadCogFile(options?: Options): Cog {
   const finalOptions: InstantiatedOptions = Object.assign({
     cwd: process.cwd(),
     override: true,
