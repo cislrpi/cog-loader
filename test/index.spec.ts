@@ -118,6 +118,24 @@ describe('test cogLoadFunction', () => {
     expect(cogLoadFunction({cwd: join(__dirname, 'data', 'no_override')})).toStrictEqual({foo: true, bar: false});
   });
 
+  test('cog load with relative cogPath', () => {
+    const cwdSpy = jest.spyOn(process, 'cwd');
+    cwdSpy.mockReturnValue(join(__dirname, 'data'));
+    const homedirSpy = jest.spyOn(os, 'homedir');
+    homedirSpy.mockReturnValue(join(__dirname, 'data', 'invalid_homedir'));
+
+    expect(cogLoadFunction({cogPath: 'special.cog.json'})).toStrictEqual({foo: false, bar: true, baz: "true"});
+  });
+
+  test('cog load with absolute cogPath', () => {
+    const cwdSpy = jest.spyOn(process, 'cwd');
+    cwdSpy.mockReturnValue(join(__dirname, 'data', 'no_override'));
+    const homedirSpy = jest.spyOn(os, 'homedir');
+    homedirSpy.mockReturnValue(join(__dirname, 'data', 'invalid_homedir'));
+
+    expect(cogLoadFunction({cogPath: join(__dirname, 'data', 'special.cog.json')})).toStrictEqual({foo: false, bar: true, baz: "true"});
+  });
+
   test('non-existent directory', () => {
     const cwdSpy = jest.spyOn(process, 'cwd');
     const fakeDir = join(__dirname, 'data', 'not_a_real_folder');

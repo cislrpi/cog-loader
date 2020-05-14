@@ -9,6 +9,7 @@ export interface Cog {
 
 export interface CogLoaderOptions {
   cwd?: string;
+  cogPath?: string;
   override?: boolean;
   overridePath?: string;
   checkHomeDirectory?: boolean;
@@ -16,6 +17,7 @@ export interface CogLoaderOptions {
 
 interface InstantiatedOptions {
   cwd: string;
+  cogPath: string;
   override: boolean;
   overridePath: string;
   checkHomeDirectory: boolean;
@@ -41,20 +43,25 @@ export function overrideObject(target: Cog, override: {[key: string]: unknown}):
 export default function loadCogFile(options?: CogLoaderOptions): Cog {
   const finalOptions: InstantiatedOptions = Object.assign({
     cwd: process.cwd(),
+    cogPath: 'cog.json',
     override: true,
     overridePath: 'cog.override.json',
     checkHomeDirectory: true,
   }, options);
 
+  if (!isAbsolute(finalOptions.cogPath)) {
+    finalOptions.cogPath = join(finalOptions.cwd, finalOptions.cogPath);
+  }
+
   if (!isAbsolute(finalOptions.overridePath)) {
     finalOptions.overridePath = join(finalOptions.cwd, finalOptions.overridePath);
   }
-  const cogPath = join(finalOptions.cwd, 'cog.json');
-  if (!fs.existsSync(cogPath)) {
-    throw new Error(`Could not load cog file at ${cogPath}`);
+
+  if (!fs.existsSync(finalOptions.cogPath)) {
+    throw new Error(`Could not load cog file at ${finalOptions.cogPath}`);
   }
 
-  const cog: Cog = JSON.parse(fs.readFileSync(cogPath, {encoding: 'utf8'}));
+  const cog: Cog = JSON.parse(fs.readFileSync(finalOptions.cogPath, {encoding: 'utf8'}));
 
   // overrides that sit next to final take precendence over global home overrides
   if (finalOptions.override && fs.existsSync(finalOptions.overridePath)) {
