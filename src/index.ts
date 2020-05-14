@@ -7,7 +7,7 @@ export interface Cog {
   [key: string]: unknown;
 }
 
-interface Options {
+export interface CogLoaderOptions {
   cwd?: string;
   override?: boolean;
   overrideName?: string;
@@ -35,7 +35,7 @@ export function overrideObject(target: Cog, override: {[key: string]: unknown}):
   return newObject;
 }
 
-export default function loadCogFile(options?: Options): Cog {
+export default function loadCogFile(options?: CogLoaderOptions): Cog {
   const finalOptions: InstantiatedOptions = Object.assign({
     cwd: process.cwd(),
     override: true,
