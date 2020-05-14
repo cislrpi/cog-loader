@@ -1,6 +1,15 @@
 import { overrideObject } from '../src/index';
 
 describe('test overrideObject', () => {
+  test('should override target object', () => {
+    const cog = {
+      foo: true,
+      bar: false,
+    };
+    overrideObject(cog, {foo: 'override', bar: true});
+    expect(cog).toStrictEqual({foo: 'override', bar: false});
+  });
+
   test('should override true booleans', () => {
     const cog = {
       foo: true,

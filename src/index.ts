@@ -21,18 +21,21 @@ interface InstantiatedOptions {
   checkHomeDirectory: boolean;
 }
 
+/**
+ * Given a target object and an override object, we override any keys in target whose values
+ * are the boolean true. This modifies the target in-place.
+ */
 export function overrideObject(target: Cog, override: {[key: string]: unknown}): Cog {
   // because we interop with JS libraries, and do not trust them to understand type signatures
   if (typeof override !== 'object' || Array.isArray(override)) {
     return target;
   }
-  const newObject = Object.assign({}, target);
   for (const key in override) {
-    if (newObject[key] && newObject[key] === true) {
-      newObject[key] = override[key];
+    if (target[key] && target[key] === true) {
+      target[key] = override[key];
     }
   }
-  return newObject;
+  return target;
 }
 
 export default function loadCogFile(options?: CogLoaderOptions): Cog {
