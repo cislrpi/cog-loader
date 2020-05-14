@@ -1,6 +1,6 @@
 {
   "name": "@cisl/cog-loader",
-  "version": "1.0.0-dev.2",
+  "version": "1.0.0-dev.3",
   "description": "Utility library for loading cog.json files",
   "main": "dist/index.js",
   "scripts": {
