@@ -11,6 +11,7 @@ module.exports = {
     ],
     rules: {
       "indent": "off",
+      "comma-dangle": ["error", "always-multiline"],
       "@typescript-eslint/brace-style": ["error", "stroustrup"],
       "@typescript-eslint/camelcase": "off",
       "@typescript-eslint/indent": ["error", 2],
