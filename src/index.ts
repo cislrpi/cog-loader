@@ -1,5 +1,5 @@
 import { homedir } from 'os';
-import { join } from 'path';
+import { join, isAbsolute } from 'path';
 import fs from 'fs';
 
 export interface Cog {
@@ -10,14 +10,14 @@ export interface Cog {
 export interface CogLoaderOptions {
   cwd?: string;
   override?: boolean;
-  overrideName?: string;
+  overridePath?: string;
   checkHomeDirectory?: boolean;
 }
 
 interface InstantiatedOptions {
   cwd: string;
   override: boolean;
-  overrideName: string;
+  overridePath: string;
   checkHomeDirectory: boolean;
 }
 
@@ -39,21 +39,28 @@ export default function loadCogFile(options?: CogLoaderOptions): Cog {
   const finalOptions: InstantiatedOptions = Object.assign({
     cwd: process.cwd(),
     override: true,
-    overrideName: 'cog.override.json',
+    overridePath: 'cog.override.json',
     checkHomeDirectory: true,
   }, options);
 
+  if (!isAbsolute(finalOptions.overridePath)) {
+    finalOptions.overridePath = join(finalOptions.cwd, finalOptions.overridePath);
+  }
   const cogPath = join(finalOptions.cwd, 'cog.json');
   if (!fs.existsSync(cogPath)) {
     throw new Error(`Could not load cog file at ${cogPath}`);
   }
 
-  let cog: Cog = JSON.parse(fs.readFileSync(cogPath, {encoding: 'utf8'}));
-  if (finalOptions.checkHomeDirectory && fs.existsSync(join(homedir(), 'cog.json'))) {
-    cog = overrideObject(cog, JSON.parse(fs.readFileSync(join(homedir(), 'cog.json'), {encoding: 'utf8'})));
+  const cog: Cog = JSON.parse(fs.readFileSync(cogPath, {encoding: 'utf8'}));
+
+  // overrides that sit next to final take precendence over global home overrides
+  if (finalOptions.override && fs.existsSync(finalOptions.overridePath)) {
+    overrideObject(cog, JSON.parse(fs.readFileSync(finalOptions.overridePath, {encoding: 'utf8'})));
   }
-  if (finalOptions.override && fs.existsSync(join(finalOptions.cwd, finalOptions.overrideName))) {
-    cog = overrideObject(cog, JSON.parse(fs.readFileSync(join(finalOptions.cwd, finalOptions.overrideName), {encoding: 'utf8'})));
+
+  const homeCogPath = join(homedir(), '.cog.json');
+  if (finalOptions.override && finalOptions.checkHomeDirectory && fs.existsSync(homeCogPath)) {
+    overrideObject(cog, JSON.parse(fs.readFileSync(homeCogPath, {encoding: 'utf8'})));
   }
   return cog;
 }
