@@ -4,7 +4,7 @@ import fs from 'fs';
 import { Cog, CogLoaderOptions, InstantiatedOptions } from './types';
 import { overrideObject } from './util';
 
-function loadCogFile(options?: CogLoaderOptions): Cog {
+function cogLoader(options?: CogLoaderOptions): Cog {
   const finalOptions: InstantiatedOptions = Object.assign({
     cwd: process.cwd(),
     cogPath: 'cog.json',
@@ -39,4 +39,4 @@ function loadCogFile(options?: CogLoaderOptions): Cog {
   return cog;
 }
 
-export = loadCogFile;
+export = cogLoader;
