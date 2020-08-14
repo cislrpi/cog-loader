@@ -1,7 +1,8 @@
 # cog-loader
 
-[![Test](https://github.com/bishopcais/cog-loader/workflows/Test/badge.svg?branch=master&event=push)](https://github.com/bishopcais/cog-loader/actions?query=event%3Apush+branch%3Amaster+workflow%3ATest)
 [![NPM Version](https://img.shields.io/npm/v/@bishopcais/cog-loader)](https://npmjs.com/package/@bishopcais/cog-loader)
+[![Test](https://github.com/bishopcais/cog-loader/workflows/Test/badge.svg?branch=master&event=push)](https://github.com/bishopcais/cog-loader/actions?query=event%3Apush+branch%3Amaster+workflow%3ATest)
+[![codecov](https://codecov.io/gh/bishopcais/cog-loader/branch/master/graph/badge.svg)](https://codecov.io/gh/bishopcais/cog-loader)
 
 Utility library for loading cog.json files. When the `cogLoader` function is 
 called, this module will look for and combine cog files in a number of 
