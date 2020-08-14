@@ -5,7 +5,7 @@ Utility library for loading cog.json files.
 ## Installation
 
 ```bash
-npm install @cisl/cog-loader
+npm install @bishopcais/cog-loader
 ```
 
 ## Usage
